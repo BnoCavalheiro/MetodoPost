@@ -35,6 +35,7 @@ function cadastro(requisicao, resposta){
             email : email,
             telefone : telefone
         });
+        resposta.redirect('/listarUsuarios');
     }
     else
     {
@@ -68,16 +69,17 @@ function cadastro(requisicao, resposta){
                 <form method="post" action="/cadastro" class="row g-3">
                     <div class="col-md-4">
                         <label for="cnpj" class="form-label">CNPJ</label>
-                        <input type="text" class="form-control" id="cnpj" name="cnpj" required>`);
+                        <input type="text" class="form-control" id="cnpj" name="cnpj" value="${cnpj}" required>`);
          if (cnpj == ""){
             resposta.write(`<div class="alert alert-danger" role="alert">
                              Por favor, informe o CNPJ da empresa.
-                             </div>`);
+                             </div>`
+                            );
          }
          resposta.write(`</div>
                          <div class="col-md-4">
                          <label for="razaoSocial" class="form-label">Razão Social ou Nome do Fornecedor</label>
-                         <input type="text" class="form-control" id="razaoSocial" name="razaoSocial" required>`) ; 
+                         <input type="text" class="form-control" id="razaoSocial" name="razaoSocial" value="${razaoSocial}" required>`) ; 
          if (razaoSocial == ""){
             resposta.write(`<div class="alert alert-danger" role="alert">
               Por favor, informe a Razão social ou Nome do fornecedor da empresa.
@@ -86,7 +88,7 @@ function cadastro(requisicao, resposta){
          resposta.write(`</div>
                          <div class="col-md-4">
                          <label for="nomeFantasia" class="form-label">Nome Fantasia</label>
-                         <input type="text" class="form-control" id="nomeFantasia" name="nomeFantasia" required>`);
+                         <input type="text" class="form-control" id="nomeFantasia" name="nomeFantasia" value="${nomeFantasia}" required>`);
 
          if (nomeFantasia == ""){
             resposta.write(`<div class="alert alert-danger" role="alert">
@@ -96,7 +98,7 @@ function cadastro(requisicao, resposta){
          resposta.write(`</div>
                          <div class="col-md-6">
                          <label for="endereco" class="form-label">Endereço</label>
-                         <input type="text" class="form-control" id="endereco" name="endereco" required>`);
+                         <input type="text" class="form-control" id="endereco" name="endereco" value="${endereco}" required>`);
          
         if (endereco == ""){
             resposta.write(`<div class="alert alert-danger" role="alert">
@@ -106,7 +108,7 @@ function cadastro(requisicao, resposta){
         resposta.write(` </div>
                          <div class="col-md-4">
                          <label for="cidade" class="form-label">Cidade</label>
-                         <input type="text" class="form-control" id="cidade" name="cidade" required>`); 
+                         <input type="text" class="form-control" id="cidade" name="cidade" value="${cidade}" required>`); 
         
         if (cidade == ""){
             resposta.write(`<div class="alert alert-danger" role="alert">
@@ -117,7 +119,7 @@ function cadastro(requisicao, resposta){
                          <div class="col-md-2">
                          <label for="uf" class="form-label">UF</label>
                          <select class="form-select" id="uf" name="uf" required>
-                         <option selected disabled value="">Selecione</option>
+                         <option selected disabled value=${uf}>Selecione</option>
                          <option value="AC">Acre</option>
                          <option value="AL">Alagoas</option>
                          <option value="AP">Amapá</option>
@@ -147,7 +149,7 @@ function cadastro(requisicao, resposta){
                          <option value="TO">Tocantins</option>
                          </select>`); 
                        
-        if (uf == ""){
+        if (!uf){
             resposta.write(`<div class="alert alert-danger" role="alert">
                             Por favor, selecione um estado.
                             </div>`);
@@ -155,7 +157,7 @@ function cadastro(requisicao, resposta){
        resposta.write(` </div>
                         <div class="col-md-4">
                         <label for="cep" class="form-label">CEP</label>
-                        <input type="text" class="form-control" id="cep" name="cep" required>`); 
+                        <input type="text" class="form-control" id="cep" name="cep" value="${cep}" required>`); 
                         
        if (cep == ""){
         resposta.write(`<div class="alert alert-danger" role="alert">
@@ -166,7 +168,7 @@ function cadastro(requisicao, resposta){
        resposta.write(`</div>
                        <div class="col-md-4">
                        <label for="email" class="form-label">Email</label>
-                       <input type="email" class="form-control" id="email" name="email" required>`);
+                       <input type="email" class="form-control" id="email" name="email" value="${email}" required>`);
         
        if (email == ""){
         resposta.write(`<div class="alert alert-danger" role="alert">
@@ -177,7 +179,7 @@ function cadastro(requisicao, resposta){
        resposta.write(`</div>
                        <div class="col-md-4">
                        <label for="telefone" class="form-label">Telefone</label>
-                       <input type="tel" class="form-control" id="telefone" name="telefone" required>`);
+                       <input type="tel" class="form-control" id="telefone" name="telefone" value="${telefone}" required>`);
 
        if (telefone == ""){
         resposta.write(`<div class="alert alert-danger" role="alert">
@@ -202,6 +204,50 @@ function cadastro(requisicao, resposta){
 
 }   
 app.post('/cadastro',cadastro);
+
+app.get('/listarUsuarios', (req, resp) => {
+    resp.write('<html>');
+    resp.write('<head>');
+    resp.write('<title>Resultado do cadastro</title>');
+    resp.write('<meta charset="utf-8">');
+    resp.write('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
+    resp.write('</head>');
+    resp.write('<body>');
+    resp.write('<h1>Lista de Usuários</h1>');
+    resp.write('<table class="table table-striped">');
+    resp.write('<tr>');
+    resp.write('<th>CNPJ</th>');
+    resp.write('<th>Razão Social</th>');
+    resp.write('<th>Nome Fantasia</th>');
+    resp.write('<th>Endereço</th>');
+    resp.write('<th>Cidade</th>');
+    resp.write('<th>UF</th>');
+    resp.write('<th>CEP</th>');
+    resp.write('<th>Email</th>');
+    resp.write('<th>Telefone</th>');
+    resp.write('</tr>');
+
+    for (let i = 0; i < listaUsuarios.length; i++) {
+        resp.write('<tr>');
+        resp.write(`<td>${listaUsuarios[i].cnpj}</td>`);
+        resp.write(`<td>${listaUsuarios[i].razaoSocial}</td>`);
+        resp.write(`<td>${listaUsuarios[i].nomeFantasia}</td>`);
+        resp.write(`<td>${listaUsuarios[i].endereco}</td>`);
+        resp.write(`<td>${listaUsuarios[i].cidade}</td>`);
+        resp.write(`<td>${listaUsuarios[i].uf}</td>`);
+        resp.write(`<td>${listaUsuarios[i].cep}</td>`);
+        resp.write(`<td>${listaUsuarios[i].email}</td>`);
+        resp.write(`<td>${listaUsuarios[i].telefone}</td>`);
+        resp.write('</tr>');
+    }
+
+    resp.write('</table>');
+    resp.write('<a href="/">Voltar</a>');
+    resp.write('</body>');
+    resp.write('<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>');
+    resp.write('</html>');
+    resp.end();
+});
 
 app.listen(porta, host, () => {
     console.log(`Servidor Rodando em http://${host}:${porta}`);
