@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(process.cwd(), 'publico')));
 
-function cadastro(requisicao, resposta){
+function cadastrarEmpresa(requisicao, resposta){
     const cnpj = requisicao.body.cnpj;
     const razaoSocial = requisicao.body.razaoSocial;
     const nomeFantasia = requisicao.body.nomeFantasia;
@@ -59,14 +59,14 @@ function cadastro(requisicao, resposta){
                     <a class="nav-link" href="cadastro.html">Cadastro</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/relatorio">Relatório</a>
+                    <a class="nav-link" href="/listarUsuarios">Relatório</a>
                 </li>
             </ul>
             <br>
             <br>
             <div class="container">
                 <h1>Cadastro de Empresas</h1>
-                <form method="post" action="/cadastro" class="row g-3">
+                <form method="post" action="/cadastrarEmpresa" class="row g-3">
                     <div class="col-md-4">
                         <label for="cnpj" class="form-label">CNPJ</label>
                         <input type="text" class="form-control" id="cnpj" name="cnpj" value="${cnpj}" required>`);
@@ -203,7 +203,7 @@ function cadastro(requisicao, resposta){
     }
 
 }   
-app.post('/cadastro',cadastro);
+app.post('/cadastrarEmpresa',cadastrarEmpresa);
 
 app.get('/listarUsuarios', (req, resp) => {
     resp.write('<html>');
@@ -213,7 +213,7 @@ app.get('/listarUsuarios', (req, resp) => {
     resp.write('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
     resp.write('</head>');
     resp.write('<body>');
-    resp.write('<h1>Lista de Usuários</h1>');
+    resp.write('<h1>Lista de Empresas</h1>');
     resp.write('<table class="table table-striped">');
     resp.write('<tr>');
     resp.write('<th>CNPJ</th>');
